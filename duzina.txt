@@ -1,0 +1,41 @@
+public int duzinaNajkracegOdIndexa(int index, int broj) {
+        int zbir=0;
+        int brojac=0;
+
+        for (int i = index; i < niz.length; i++) {
+            zbir=zbir+niz[i];
+            brojac++;
+            if(zbir>broj) {
+                return brojac;
+            }
+        }
+
+
+        return Integer.MAX_VALUE;
+    }
+
+
+    public int duzinaNajkraceg(int broj) throws labisException{
+        if (niz==null) {
+            throw new LabisException("Niz ne postoji!");
+        }
+
+        int duzNajmanjeg=Integer.MAX_VALUE;
+        int duzZaIndex;
+
+        for (int i = 0; i < niz.length; i++) {
+
+            duzZaIndex=duzinaNajkracegOdIndexa(i, broj);
+
+            if(duzZaIndex<duzNajmanjeg) {
+                duzNajmanjeg=duzZaIndex;
+            }
+        }
+
+
+    if (duzNajmanjeg!=Integer.MAX_VALUE) {
+            return duzNajmanjeg;}
+    else {
+        throw new LabisException("Ne postoji takav podniz");
+    }
+    }
