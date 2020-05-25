@@ -1,0 +1,342 @@
+public class JSLista {
+
+	Cvor prvi;
+	public JSLista() {
+		
+	}
+	
+	public JSLista(int...niz) {
+		for (int i = 0; i < niz.length; i++) {
+			ubaciNaKraj(niz[i]);
+		}
+	}
+	
+	void printLista() {
+		
+		if(prvi == null) {
+			System.out.println("Lista je prazna");
+			return;
+		}
+		
+		Cvor pom = prvi;
+		
+		while(pom != null) {
+			System.out.println(pom.podatak);
+			pom = pom.sledeci;
+		}
+
+	}
+	
+	void ubaciNaPocetak(int broj) {
+		
+		Cvor noviCvor = new Cvor();
+		
+		noviCvor.podatak = broj;
+		noviCvor.sledeci = prvi;
+		
+		prvi = noviCvor;
+		
+	}
+	
+	void ubaciNaKraj(int broj) {
+		
+		Cvor noviCvor = new Cvor();
+		noviCvor.podatak = broj;
+		
+		if(prvi == null) {
+			prvi = noviCvor;
+			return;
+		}
+		
+		Cvor pom = prvi;
+		
+		while(pom.sledeci != null) {
+			
+			pom = pom.sledeci;
+		}
+		
+		pom.sledeci = noviCvor;
+		
+	}
+	
+	void izbaciSaPocetka() {
+		
+		if(prvi == null) {
+			return;
+		}
+		
+		prvi = prvi.sledeci;
+		
+	}
+	
+	void izbaciSaKraja() {
+		
+		
+		if(prvi == null) {
+			return;
+		}
+		
+		if(prvi.sledeci == null) {
+			prvi = null;
+			return;
+		}
+		
+		Cvor pom = prvi;
+		
+		while(pom.sledeci.sledeci != null) {
+			pom = pom.sledeci;
+		}
+		
+		pom.sledeci = null;
+	}
+	
+	int brojElListe() {
+		int brojac = 0;
+		Cvor pom = prvi;
+		
+		while(pom != null) {
+			brojac++;
+			pom = pom.sledeci;
+		}
+		return brojac;
+	}
+	
+	int get(int index) {
+		
+		if(index < 0 || index >= brojElListe()) {
+			throw new RuntimeException("Los index");
+		}
+		
+		
+		Cvor pom = prvi;
+		
+		for (int i = 0; i < index; i++) {
+			pom = pom.sledeci;
+		}
+		
+		return pom.podatak;
+		
+	}
+	
+	void set(int index, int noviBr) {
+		
+		if(index < 0 || index >= brojElListe()) {
+			throw new RuntimeException("Los index");
+		}
+		
+		Cvor pom = prvi;
+		for (int i = 0; i < index; i++) {
+			pom = pom.sledeci;
+		}
+		
+		pom.podatak = noviBr;
+		
+	}
+	
+	boolean contains(int broj) {
+
+		Cvor pom = prvi;
+		
+		while(pom != null) {
+			if(pom.podatak == broj) {
+				return true;
+			}
+			pom = pom.sledeci;
+		}
+		
+		return false;
+	}
+
+	void ubaciNaIndex(int index, int broj) {
+		
+		if(index < 0 || index > brojElListe()) {
+			return;
+		}
+		
+		
+		Cvor noviCvor = new Cvor();
+		noviCvor.podatak = broj;
+		
+		if(index == 0) {
+			noviCvor.sledeci = prvi;
+			prvi = noviCvor;
+			return;
+		}
+		
+		
+		
+		Cvor pom = prvi;
+		
+		for (int i = 0; i < index-1; i++) {
+			pom = pom.sledeci;
+		}
+		noviCvor.sledeci = pom.sledeci;
+		pom.sledeci = noviCvor;
+		
+	}
+
+	int izbaciSaIndexa(int index) {
+		
+		if(index == 0) {
+			int broj = prvi.podatak;
+			
+			prvi = prvi.sledeci;
+			return broj;
+		}
+		
+		if(index < 0 || index > brojElListe()) {
+			throw new RuntimeException("NES NIJE DOBRO XEXE");
+		}
+		
+		Cvor pom = prvi;
+		
+		for (int i = 0; i < index - 1; i++) {
+			pom = pom.sledeci;
+		}
+		
+		int broj = pom.sledeci.podatak;
+		
+		pom.sledeci = pom.sledeci.sledeci;
+		
+		return broj;
+	}
+
+	void selectionSort() {
+		
+		Cvor spori = prvi;
+		Cvor brzi = prvi.sledeci;
+		
+		while(spori.sledeci != null) {
+			while(brzi != null) {
+				
+				if(spori.podatak > brzi.podatak) {
+
+					int c = spori.podatak;
+					spori.podatak = brzi.podatak;
+					brzi.podatak = c;
+				}
+				
+				
+				brzi = brzi.sledeci;
+			}
+			
+			spori = spori.sledeci;
+			
+			brzi = spori.sledeci; // ****** JAKO BITNO!!!!!!!!!!!!!!! ******
+		}
+			
+			
+	}
+	
+	void ubaciSortirano(int noviBroj) {
+		Cvor noviCvor = new Cvor();
+		
+		noviCvor.podatak = noviBroj;
+		
+		//ako je lista prazna
+		if(prvi == null) {
+			prvi = noviCvor;
+			return;
+		}
+		
+		//ubacivanje na pocetak
+		if(noviBroj <= prvi.podatak) {
+			noviCvor.sledeci = prvi;
+			prvi = noviCvor;
+			return;
+		}
+		
+		Cvor p1 = prvi;
+		Cvor p2 = prvi.sledeci;
+		
+		//Ubacivanje u sredinu
+		while(p2!=null) {
+			
+			if(p2.podatak > noviBroj) {
+				p1.sledeci = noviCvor;
+				noviCvor.sledeci = p2;
+				return;
+			}
+			
+			p1 = p1.sledeci;
+			p2 = p2.sledeci;
+		}
+		
+		//Ubacivanje na kraj
+		p1.sledeci = noviCvor;
+		
+		
+		
+	}
+	
+	void ubaciSortirano2(int noviBroj) {
+		
+		Cvor noviCvor = new Cvor();
+		
+		noviCvor.podatak = noviBroj;
+		
+		//ako je lista prazna
+		if(prvi == null) {
+			prvi = noviCvor;
+			return;
+		}
+		
+		//ubacivanje na pocetak
+		if(noviBroj <= prvi.podatak) {
+			noviCvor.sledeci = prvi;
+			prvi = noviCvor;
+			return;
+		}
+		
+		Cvor pom = prvi;
+		
+		//Ubacivanje u sredinu
+		while(pom.sledeci != null) {
+			
+			if(pom.sledeci.podatak > noviBroj) {
+				noviCvor.sledeci = pom.sledeci;
+				pom.sledeci = noviCvor;
+				return;
+			}
+			
+			pom = pom.sledeci;
+		}
+		
+		//Ubacivanje na kraj
+		pom.sledeci = noviCvor;
+	}
+
+	//NAJBITNIJE!!!!
+	void izbaci(int broj) {
+		
+		Cvor pom = prvi;
+		
+		if(prvi == null) {
+			return;
+		}
+		
+		//IZBACI SA POCETKA!!!! WHILE!!!!! NE MOZE IF JER MOZE BITI VISE ISTIH BROJEVA SA POCETKA
+		while (prvi.podatak == broj) {
+			prvi = prvi.sledeci;
+			if(prvi == null) {
+				return;
+			}
+		}
+		
+		
+		//IZBACIVANJE SA SREDINE I KRAJA
+		while(pom.sledeci != null) {
+			
+			if(pom.sledeci.podatak == broj) {
+				pom.sledeci = pom.sledeci.sledeci;
+			} 
+			// OVO MORA JAKO BITNO!!!!!!!!!!!!!! 
+			else { 
+				pom = pom.sledeci;
+			}
+			
+		}
+		
+	}
+	
+}

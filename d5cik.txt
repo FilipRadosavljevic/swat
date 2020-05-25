@@ -1,0 +1,45 @@
+public class DSLista {
+
+	DSCvor prvi;
+	
+	public void printListu() {
+		if (prvi == null) {
+			System.out.println("LISTA JE PRAZNA");
+			return;
+		}
+		
+		DSCvor pom = prvi;
+		
+		do {
+			System.out.println(pom.podatak);
+			pom = pom.sledeci;
+		} while(pom != prvi);
+		
+		System.out.println();
+	}
+	
+	public void ubaciNaPocetak(int broj) {
+		
+		DSCvor noviCvor = new DSCvor();
+		noviCvor.podatak = broj;
+		
+		if(prvi == null) {
+			prvi = noviCvor;
+			
+			noviCvor.sledeci = noviCvor;
+			noviCvor.prethodni = noviCvor;
+			return;
+		}
+		
+		DSCvor poslednji = prvi.prethodni;
+		
+		noviCvor.sledeci = prvi;
+		prvi.prethodni = noviCvor;
+		
+		poslednji.sledeci = noviCvor;
+		noviCvor.prethodni = poslednji;
+		
+		prvi = noviCvor;
+		
+	}
+}

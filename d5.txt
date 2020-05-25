@@ -1,0 +1,166 @@
+public class DSLista {
+
+	DSCvor prvi;
+	
+	public DSLista() {
+		
+	}
+	
+	public DSLista(int...niz) {
+		for (int i = 0; i < niz.length; i++) {
+			ubaciNaKraj(niz[i]);
+		}
+	}
+	
+	public void printListu() {
+		
+		if(prvi == null) {
+			System.out.println("Lista je prazna");
+			return;
+		}
+		
+		DSCvor pom = prvi;
+		
+		while(pom!=null) {
+			System.out.println(pom.podatak);
+			pom = pom.sledeci;
+		}
+		
+		System.out.println();
+		
+	}
+
+	public void ispisUnazad() {
+		
+		if(prvi == null) {
+			System.out.println("Lista je prazna");
+			return;
+		}
+		
+		DSCvor pom = prvi;
+		
+		while(pom.sledeci != null) {
+			pom = pom.sledeci;
+		}
+		
+		while(pom != null) {
+			System.out.println(pom.podatak);
+			pom = pom.prethodni;
+		}
+		
+	}
+
+	public void ubaciNaPocetak(int noviBroj) { 
+		DSCvor noviCvor = new DSCvor();
+		noviCvor.podatak = noviBroj;
+		
+		
+		noviCvor.sledeci = prvi;
+		
+		if(prvi != null) {
+			prvi.prethodni = noviCvor;
+		}
+		
+		prvi = noviCvor;
+		
+	}
+
+	public void ubaciNaKraj(int noviBroj) {
+		
+		DSCvor noviCvor = new DSCvor();
+		noviCvor.podatak = noviBroj;
+		
+		if(prvi == null) {
+			prvi = noviCvor;
+			return;
+		}
+		
+		DSCvor pom = prvi;
+		
+		while(pom.sledeci != null) {
+			pom = pom.sledeci;
+		}
+		
+		pom.sledeci = noviCvor;
+		noviCvor.prethodni = pom;
+		
+	}
+
+	public void izbaci(int broj) {
+		
+		if(prvi == null) {
+			return;
+		}
+		
+		while(prvi.podatak == broj) {
+			prvi = prvi.sledeci;
+			
+			if(prvi == null) {
+				return;
+			}
+
+			prvi.prethodni = null;
+		}
+		
+		DSCvor pom = prvi;
+		
+		while(pom.sledeci != null) {
+			
+			if(pom.sledeci.podatak == broj) {
+				
+				pom.sledeci = pom.sledeci.sledeci;
+				
+				if(pom.sledeci != null) {
+
+					pom.sledeci.prethodni = pom;
+				}
+				
+			} else {
+
+				pom = pom.sledeci;
+			}
+			
+		}
+		
+	}
+	
+	public void neparniParni() {
+		
+		if(prvi == null) {
+			return;
+		}
+		
+		int[] nizn = new int[100];
+		int[] nizp  = new int[100];
+		int nNiza1 = 0;
+		int nNiza2 = 0;
+		DSLista listak = new DSLista();
+		
+		DSCvor pom = prvi;
+		
+		while(pom!=null) {
+			if(pom.podatak % 2 == 1 || pom.podatak % 2 == -1) {
+				nizn[nNiza1++] = pom.podatak;
+			} else if (pom.podatak % 2 == 0) {
+				nizp[nNiza2++] = pom.podatak;
+			}
+
+			pom = pom.sledeci;
+		}
+		
+		for (int i = 0; i < nNiza1; i++) {
+			listak.ubaciNaKraj(nizn[i]);
+		}
+		
+		
+		for (int i = 0; i < nNiza2; i++) {
+			listak.ubaciNaKraj(nizp[i]);
+		}
+		
+		listak.printListu();
+		
+		
+	}
+	
+	
+}
