@@ -1,0 +1,5 @@
+https://drive.google.com/drive/u/0/folders/1GfdR-1nACG9PVdYjaivM2KtJT1X33vou
+AVL Stabla
+https://www.cs.usfca.edu/~galles/visualization/AVLtree.html
+B Stabla
+https://www.cs.usfca.edu/~galles/visualization/BTree.html

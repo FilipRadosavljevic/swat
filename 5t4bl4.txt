@@ -1,0 +1,512 @@
+public int zbirElR(CvorStabla cvor) {
+		
+	if(cvor==null) {
+		return 0;
+	}
+
+		return zbirElR(cvor.levoDete)+zbirElR(cvor.desnoDete)+cvor.podatak;
+	}
+	
+	public int ZbirElemenata() {
+		if(koren==null) {
+			throw new RuntimeException();
+		}
+		return zbirElR(koren);
+	}
+	
+	public int brojElR(CvorStabla cvor) {
+		if (cvor==null) {
+			return 0;
+		}
+		
+		return brojElR(cvor.levoDete)+brojElR(cvor.desnoDete)+1;
+	}
+
+	public double ArSredina(CvorStabla cvor) {
+		if(koren==null) {
+			throw new RuntimeException();
+		}
+		return (double)zbirElR(cvor)/ brojElR(cvor);
+	}
+	
+	public int maxElementR(CvorStabla cvor) {
+		
+		if(cvor==null) {
+			return Integer.MIN_VALUE;
+		}
+		
+		int maxL=maxElementR(cvor.levoDete);
+		int maxD=maxElementR(cvor.desnoDete);
+		
+		
+		
+		return max(maxL,maxD,cvor.podatak);
+	}
+
+	public int maxElement(CvorStabla cvor) {
+		if(cvor==null) {
+			throw new RuntimeException();
+		}
+		return maxElementR(cvor);
+	}
+	
+	private int max(int... niz) {
+		
+		int max=niz[0];
+		for (int i = 0; i < niz.length; i++) {
+			if(niz[i]>max) {
+				max=niz[i];
+			}
+		}
+		
+		return max;
+	}
+	
+	public CvorStabla adresaMaxEl(CvorStabla cvor) {
+		
+		if(cvor==null) {
+			return null;
+		}
+		
+		CvorStabla adresaL=adresaMaxEl(cvor.levoDete);
+		CvorStabla adresaD=adresaMaxEl(cvor.desnoDete);
+		CvorStabla adresaMax=cvor;
+		
+		if (adresaL!=null && adresaL.podatak> adresaD.podatak) {
+			adresaMax=adresaL;
+		}
+		
+		if (adresaD!=null && adresaD.podatak> adresaL.podatak) {
+			adresaMax=adresaD;
+		}
+		
+		
+		
+		return adresaMax;
+	}
+
+	public void preOrder(CvorStabla cvor) {
+		if(cvor==null) {
+			return;
+		}
+		
+		System.out.print(cvor.podatak+" ");
+		
+		preOrder(cvor.levoDete);
+		preOrder(cvor.desnoDete);
+		
+		
+	}
+
+	public void inOrder(CvorStabla cvor) {
+	if(cvor==null) {
+		return;
+	}
+		
+	inOrder(cvor.levoDete);
+	
+	System.out.print(cvor.podatak+" ");	
+		
+	inOrder(cvor.desnoDete);
+		
+		
+	}
+	
+	public void postOrder(CvorStabla cvor) {
+		if(cvor==null) {
+			return;
+		}
+		
+		postOrder(cvor.levoDete);
+		postOrder(cvor.desnoDete);
+		System.out.print(cvor.podatak+" ");
+		
+		
+		
+		
+	}
+
+	public boolean daLiPostoji(int broj,CvorStabla cvor) {
+		if(cvor==null) {
+			return false;
+		}
+		
+		if(daLiPostoji(broj, cvor.levoDete)
+			|| daLiPostoji(broj, cvor.desnoDete)
+			|| cvor.podatak==broj) {
+			return true;
+		} else {
+			return false;
+		}	
+	}
+
+	public boolean daLiPostojiCvor(CvorStabla neki,CvorStabla cvor) {
+		if(cvor==null) {
+			return false;
+		}
+		
+		if(daLiPostojiCvor(neki, cvor.levoDete)
+			|| daLiPostojiCvor(neki, cvor.desnoDete)
+			|| cvor==neki) {
+			return true;
+		} else {
+			return false;
+		}	
+	}
+	
+	public int brojElUIntervalu(int donjaGr,int gornjaGr,CvorStabla cvor) {
+	
+		if(cvor==null) {
+			return 0 ;
+		}
+		
+	int levo=brojElUIntervalu(donjaGr, gornjaGr, cvor.levoDete);
+	int desno=brojElUIntervalu(donjaGr, gornjaGr, cvor.desnoDete);
+	
+	if(cvor.podatak>= donjaGr && cvor.podatak<=gornjaGr) {
+		return levo+desno+1;
+	}else {
+		return levo+desno;
+	}
+	}
+
+	public int brojListova(CvorStabla cvor) {
+		
+		if(cvor==null) {
+			return 0 ;
+		}
+		
+		int levo=brojListova(cvor.levoDete);
+		int desno=brojListova(cvor.desnoDete);
+		if(cvor.levoDete==null && cvor.desnoDete==null) {
+			return levo+desno+1;
+		} else {
+			return levo+desno;
+		}
+		
+		
+	}
+
+	public int visina(CvorStabla cvor) {
+		
+		if(cvor==null) {
+			return 0;
+		}
+		
+		int levo = visina(cvor.levoDete);
+		int desno=visina(cvor.desnoDete);
+		
+		if(levo>desno) {
+			return levo+1;
+		} else {
+			return desno+1;
+		}
+
+	}
+	
+	public int najveciZbirPodstabala1(CvorStabla cvor) {
+		if (cvor==null) {
+			throw new RuntimeException("Prazno stablo");
+		}
+		return najveciZbirPodstabala(cvor);
+	}
+	
+	public int najveciZbirPodstabala(CvorStabla cvor) {
+		
+		if(cvor==null) {
+			return Integer.MIN_VALUE;
+		}
+		
+		int levo=najveciZbirPodstabala(cvor.levoDete);
+		int desno=najveciZbirPodstabala(cvor.desnoDete);
+		
+		int zbir=zbirElR(cvor);
+		
+		return max(levo,desno,zbir);
+		
+		
+		
+	}
+
+	public int najveciZbirDece1(CvorStabla cvor) {
+		if(cvor==null) {
+			throw new RuntimeException("Praznoo");
+		}
+		
+		if (cvor.levoDete==null && cvor.desnoDete==null ) {
+			throw new RuntimeException("Nmea decu!");
+		}
+		
+		return najveciZbirDece(cvor);
+	}
+	
+	private int najveciZbirDece(CvorStabla cvor) {
+		if(cvor==null) {
+			return Integer.MIN_VALUE;
+		}
+	
+		int levo=najveciZbirDece(cvor.levoDete);
+		int desno=najveciZbirDece(cvor.desnoDete);
+		
+		if(cvor.levoDete==null && cvor.desnoDete==null) {
+			return Integer.MIN_VALUE;
+		}
+		
+		int LD;
+		int DD;
+		if(cvor.levoDete!=null) {
+			LD=cvor.levoDete.podatak;
+		} else {
+			LD=0;
+		}
+		if(cvor.desnoDete!=null) {
+			DD=cvor.desnoDete.podatak;
+		} else {
+			DD=0;
+		}
+		
+		int trenutni=LD+DD;
+		
+		return max(levo,desno,trenutni);
+	}
+	
+	public CvorStabla vratiNajlevljeg(CvorStabla cvor) {
+		if(cvor==null) {
+			return null;
+		}
+		
+		CvorStabla pom=cvor;
+		while(true) {
+		if(pom.levoDete==null) {
+			return pom;
+		} else {
+			pom=pom.levoDete;
+		}
+		}
+		
+		
+	}
+	
+	public CvorStabla vratiNajdesnijeg(CvorStabla cvor) {
+		if(cvor==null) {
+			return null;
+		}
+		
+		CvorStabla pom=cvor;
+		while(true) {
+		if(pom.desnoDete==null) {
+			return pom;
+		} else {
+			pom=pom.desnoDete;
+		}
+		}
+	}
+	
+	public void ubaciNoviBST(int nbr) {
+		CvorStabla noviC=new CvorStabla(nbr);
+		if(koren==null) {
+			koren=noviC;
+			return;
+		}
+		CvorStabla pom=koren;
+		
+		while(true) {
+		if(nbr<pom.podatak) {
+			if(pom.levoDete==null) {
+				pom.levoDete=noviC;
+				return;
+			} else {
+				pom=pom.levoDete;
+			}
+			
+		} else {
+			if(pom.desnoDete==null) {
+				pom.desnoDete=noviC;
+				return;
+			} else {
+				pom=pom.desnoDete;
+			}
+		}
+		}
+		
+		
+		
+	}
+	
+	public void ispisOdKorenaDo(CvorStabla trazeni) {
+		if(!daLiPostojiCvor(trazeni, koren)) {
+			System.out.println("Ne nalazi se!");
+			return;
+		}
+		
+		CvorStabla pom=koren;
+		while(true) {
+		System.out.print(pom.podatak+" ");
+		if(pom==trazeni) {
+			return;
+		}
+		
+		if(daLiPostojiCvor(trazeni, pom.levoDete)) {
+			pom=pom.levoDete;
+			
+		} else {
+			pom=pom.desnoDete;
+			
+		}
+		}
+		
+		
+		
+	}
+
+	private void ispisOdKorenaDoRekP(CvorStabla cvor,CvorStabla trazeni) {
+		
+		System.out.print(cvor.podatak+" ");
+		
+		if(cvor==trazeni) {
+			return;
+		}
+		
+		if(daLiPostojiCvor(trazeni, cvor.levoDete)) {
+			ispisOdKorenaDoRekP(cvor.levoDete, trazeni);
+		} else {
+			ispisOdKorenaDoRekP(cvor.desnoDete, trazeni);
+		}
+		
+		
+	}
+	
+	public void ispisOdKorenaDoRek(CvorStabla cvor,CvorStabla trazeni) {
+	if(daLiPostojiCvor(trazeni, cvor)) {
+		System.out.println("Od korena do trazenog ");
+
+		ispisOdKorenaDoRekP(cvor, trazeni);
+	} else {
+		System.out.println("Trazeni se ne nalazi u stablu");
+	}
+	}
+	
+	private void ispisOdNekogDoKorena(CvorStabla cvor,CvorStabla trazeni) {
+		
+		if(cvor==trazeni) {
+			System.out.print(cvor.podatak+ " ");
+			return;
+		}
+		
+		if(daLiPostojiCvor(trazeni, cvor.levoDete)) {
+			ispisOdNekogDoKorena(cvor.levoDete, trazeni);
+		}else {
+			ispisOdNekogDoKorena(cvor.desnoDete, trazeni);
+		}
+		
+		
+		System.out.print(cvor.podatak+" ");
+		
+		
+		
+		
+	}
+	
+	public void ispisOdNekogDoKorena1(CvorStabla cvor,CvorStabla trazeni) {
+	if(daLiPostojiCvor(trazeni, cvor)) {
+		System.out.println("Od trazenog do korena ");
+		ispisOdNekogDoKorena(cvor, trazeni);
+	} else {
+		System.out.println("Trazeni ne postoji u stablu!");
+	}
+	
+	
+	
+	
+	}
+	
+	public void inOrderSaNivoom(CvorStabla cvor,int nivo) {
+		if(cvor==null) {
+			return;
+		}
+		inOrderSaNivoom(cvor.levoDete,nivo+1);
+		System.out.println(cvor.podatak+" nivo "+nivo);
+		inOrderSaNivoom(cvor.desnoDete, nivo+1);
+		
+	}
+	
+	public void obrisi(CvorStabla trazeni) {
+		if(!daLiPostojiCvor(trazeni, koren)) {
+			return;
+		}
+		CvorStabla pom=koren;
+		CvorStabla roditelj=null;
+		boolean jeLevoDete=true;
+		
+		while (true) {
+			if(pom==trazeni) {
+				break;
+			}
+			if(daLiPostojiCvor(trazeni, pom.levoDete)) {
+				roditelj=pom;
+				pom=pom.levoDete;
+			} else {
+				roditelj=pom;
+				pom=pom.desnoDete;
+			}
+		} //izbacivanje korena
+		if(trazeni==koren) {
+			if(koren.levoDete==null && koren.desnoDete==null) {
+				koren=null;
+				return;
+			}
+			if(koren.levoDete==null) {
+				koren=koren.desnoDete;
+				return;
+			}
+			if(koren.desnoDete==null) {
+				koren=koren.levoDete;
+				return;
+			}//kad je koren unutrasnji
+			CvorStabla najdesniji=vratiNajdesnijeg(trazeni.levoDete);
+			
+			trazeni.podatak=najdesniji.podatak;
+			obrisi(najdesniji);
+			return;
+		}
+		
+		if(roditelj.desnoDete==trazeni) {
+			jeLevoDete=false;
+		}
+		
+		//izbacivanje lista
+		if(trazeni.levoDete==null && trazeni.desnoDete==null) {
+			if(jeLevoDete) {
+			roditelj.levoDete=null;
+			return;
+			}
+		} else {
+			roditelj.desnoDete=null;
+			return;
+		}
+		//izbacivanje polulista
+		if(trazeni.levoDete==null) { //polulist nema levo dete
+			if(jeLevoDete) {
+				roditelj.levoDete=trazeni.desnoDete;
+				return;
+			} else {
+				roditelj.desnoDete=trazeni.desnoDete;
+				return;
+			}
+			
+		}
+		if(trazeni.desnoDete==null) { //polulist nema desno dete
+			if(jeLevoDete) {
+				roditelj.levoDete=trazeni.levoDete;
+				return;
+			} else {
+				roditelj.desnoDete=trazeni.levoDete;
+				return;
+			}
+		}
+		// izbacivanje unutrasnjeg
+		CvorStabla najdesniji=vratiNajdesnijeg(trazeni.levoDete);	
+		trazeni.podatak=najdesniji.podatak;
+		obrisi(najdesniji);
+	}
+	
